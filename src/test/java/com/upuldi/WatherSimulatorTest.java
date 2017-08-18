@@ -8,9 +8,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by udoluweera on 8/18/17.
  */
-public class AppTest {
+public class WatherSimulatorTest {
 
-    private App application = new App();
+    private WatherSimulator application = new WatherSimulator();
 
 
     @Test

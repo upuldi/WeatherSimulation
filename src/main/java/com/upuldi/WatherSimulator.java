@@ -6,17 +6,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.time.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
  * Hello world!
  */
-public class App {
+public class WatherSimulator {
 
     public List<Location> readLocationData(String path) {
 
@@ -31,7 +31,7 @@ public class App {
 
         List<Location> locationList = null;
         try (Stream<String> stream = Files.lines(getPath(path))) {
-            locationList = stream.filter(line -> !line.startsWith("#")).map(mapToLocation)..collect(Collectors.toList());
+            locationList = stream.filter(line -> !line.startsWith("#")).map(mapToLocation).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -53,10 +53,25 @@ public class App {
         return Paths.get(ClassLoader.getSystemResource(path).toURI());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        String fileName = "locations.txt";
-        System.out.println(new App().readLocationData(fileName).size());
+        //Read from the locations property file
+        WatherSimulator simulator = new WatherSimulator();
+        List<Location> locationList = simulator.readLocationData("locations.txt");
+
+        //Perform simulation
+        while (true) {
+
+            Thread.sleep(5000);
+            System.out.println("Running simulation .... ");
+
+
+
+
+        }
+
+
+        //System.out.println(new WatherSimulator().readLocationData(fileName).size());
 
 /*        ZoneId america = ZoneId.of("UTC+05:30");
         LocalDateTime localtDateAndTime = LocalDateTime.now();
@@ -65,5 +80,6 @@ public class App {
         System.out.println(Instant.now().atZone(ZoneId.of("UTC+05:30")));*/
 
     }
+
 
 }
