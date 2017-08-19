@@ -1,12 +1,12 @@
-#city,lat,long,timezone
-Sydney,33.86,151.21,UTC+10:00
-Melbourne,37.81,144.96
-Adelaide,34.92,138.60
-Perth,31.95,115.86,
-London,51.50,0.127
-New York,40.71,74.00
-Tokyo,35.68,139.69
-Rio de Janeiro,22.90,43.17
-Moscow,55.75,37.61
-Paris,48.85, 2.35
-Beijing,39.90,116.40
+#city,lat,long,timezone,hemisphere,probability_of_a_sunny_day,
+Sydney,33.86,151.21,UTC+10:00,SH,0.7,0.3,0,
+Melbourne,37.81,144.96,UTC+10:00,SH
+Adelaide,34.92,138.60,UTC +10:30,SH
+Perth,31.95,115.86,UTC+08:00,SH
+London,51.50,0.127,UTC+00:00,NH
+New York,40.71,74.00,UTC-05:00,NH
+Tokyo,35.68,139.69,UTC+09:00,NH
+Rio de Janeiro,22.90,43.17,UTC-03:00,SH
+Moscow,55.75,37.61,UTC+03:00,NH
+Paris,48.85, 2.35,UTC+03:00,NH
+Beijing,39.90,116.40,UTC+08:00,NH

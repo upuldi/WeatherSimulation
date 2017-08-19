@@ -6,7 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
@@ -21,11 +26,19 @@ public class WatherSimulator {
     public List<Location> readLocationData(String path) {
 
         Function<String, Location> mapToLocation = s -> {
+
             String[] columns = s.split("[,]");
             Location location = new Location();
             location.setCity(columns[0]);
             location.setLatitude(columns[1]);
             location.setLongitude(columns[2]);
+            location.setTimezone(columns[3]);
+            location.setHemisphere(Hemisphere.getByCode(columns[4]));
+
+            //Keep the local date time for the location
+            ZonedDateTime zonedDateTime = Instant.now().atZone(ZoneId.of(columns[3]));
+            location.setZonedDateTime(zonedDateTime);
+
             return location;
         };
 
@@ -40,15 +53,6 @@ public class WatherSimulator {
         return locationList;
     }
 
-    private static Location setRandomTimeStamp(Location location) {
-        long offset = Timestamp.valueOf("2012-01-01 00:00:00").getTime();
-        long end = Timestamp.valueOf("2013-01-01 00:00:00").getTime();
-        long diff = end - offset + 1;
-        Timestamp rand = new Timestamp(offset + (long)(Math.random() * diff));
-
-        return null;
-    }
-
     private Path getPath(String path) throws URISyntaxException {
         return Paths.get(ClassLoader.getSystemResource(path).toURI());
     }
@@ -60,24 +64,49 @@ public class WatherSimulator {
         List<Location> locationList = simulator.readLocationData("locations.txt");
 
         //Perform simulation
+        simulator.performSimulation(locationList);
+
+    }
+
+    private Consumer<Location> publishWeatherForLocation(int count) {
+
+        return location -> {
+
+            //adjest date
+            setDateFromToday(location);
+
+            //calculate condition
+            calculateCondition(location);
+
+
+
+
+        };
+    }
+
+    private void setDateFromToday(Location location) {
+        location.setZonedDateTime(location.getZonedDateTime().plusDays(1));
+    }
+
+    private Location calculateCondition(Location location) {
+
+        Season currentSeason = Season.of(location.getZonedDateTime().getMonth(), location.getHemisphere());
+        location.setSeason(currentSeason);
+
+        return null;
+    }
+
+    public void performSimulation(List<Location> locationList) throws InterruptedException {
+
+        int step =0;
         while (true) {
 
             Thread.sleep(5000);
             System.out.println("Running simulation .... ");
 
-
-
-
+            locationList.stream().forEach(publishWeatherForLocation(step));
+            step =+1;
         }
-
-
-        //System.out.println(new WatherSimulator().readLocationData(fileName).size());
-
-/*        ZoneId america = ZoneId.of("UTC+05:30");
-        LocalDateTime localtDateAndTime = LocalDateTime.now();
-        ZonedDateTime dateAndTimeInNewYork = ZonedDateTime.of(localtDateAndTime, america );
-
-        System.out.println(Instant.now().atZone(ZoneId.of("UTC+05:30")));*/
 
     }
 
