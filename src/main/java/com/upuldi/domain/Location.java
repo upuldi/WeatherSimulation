@@ -3,8 +3,11 @@ package com.upuldi.domain;
 import java.text.DecimalFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
+/**
+ * This class is used to represent a location in the domain.
+ *
+ */
 public class Location {
 
     private String city;

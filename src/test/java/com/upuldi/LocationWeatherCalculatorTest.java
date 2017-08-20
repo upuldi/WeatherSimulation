@@ -53,8 +53,6 @@ public class LocationWeatherCalculatorTest {
         locationInNorthernHemisphere.setZonedDateTime(dateInDecember);
     }
 
-
-
     @Test
     public void seasonShouldBeBasedOnMonthAndHemisphere() throws Exception {
 
