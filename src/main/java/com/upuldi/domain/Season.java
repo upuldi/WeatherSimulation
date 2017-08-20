@@ -2,6 +2,11 @@ package com.upuldi.domain;
 
 import java.time.Month;
 
+/**
+ * This enum represent the four seasons. A season will be based on the current month
+ * and the hemisphere where the location is belongs to.
+ *
+ */
 public enum Season {
 
     SPRING, SUMMER, AUTUMN, WINTER;

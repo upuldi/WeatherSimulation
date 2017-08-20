@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Created by udoluweera on 8/19/17.
+ * This is a util class which is used to read text files.
+ *
  */
 public class FileUtils {
 
